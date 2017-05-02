@@ -496,7 +496,7 @@ public class GamePanel extends javax.swing.JPanel implements ScoreChart.Listener
 		}
 	}
 	
-	void calcNewPos(int columnEntered){
+	public void calcNewPos(int columnEntered){
 		int xPos = 0;
 		
 		switch(columnEntered){
@@ -526,11 +526,11 @@ public class GamePanel extends javax.swing.JPanel implements ScoreChart.Listener
 		newColumnNum = columnEntered;
 	}
 	
-	void turnUp(){
+	public void turnUp(){
 		if(!justWon){
 			if(falling == false){
 				//move piece to top glass, for glow.
-				glow(pieces[turnNum]);
+				//glow(pieces[turnNum]);
 
 				turnNum +=1;
 
@@ -577,6 +577,79 @@ public class GamePanel extends javax.swing.JPanel implements ScoreChart.Listener
 		}
 	}
 	
+	//used for testing only
+	public void setColumnNum(int column){
+		columnNum = column;
+	}
+	
+	//used for testing only 
+	public void setColumnHeight(int height, GUIPlayer player){
+		int h = height;
+		int c = getColumnNum();
+		board.setColumnHeight(h, c, player);
+	}
+	
+	//for testing only
+	public int getNewColumnNum(){
+		return newColumnNum;
+	}
+	
+	//for testing only
+	public int getDrawPos(){
+		return newDrawPos;
+	}
+	
+	//for testing only
+	public int getPieceLocation(int num){
+		return pieces[num].getX();
+	}
+	
+	//for testing only
+	public int getTurnNum(){
+		return turnNum;
+	}
+	
+	//for testing only
+	public void setTurnNum(int num){
+		turnNum = num;
+	}
+	
+	//for testing only
+	public String getWinner(){
+		return gui.getWinner();
+	}
+	
+	//for testing only
+	public int getScore1(){
+		return gui.getScore1();
+	}
+	
+	//for testing only
+	public boolean getJustWon(){
+		return justWon;
+	}
+	
+	//for testing only
+	public Game getGame(){
+		return game;
+	}
+	
+	//for testing only
+	public Board getBoard(){
+		return board;
+	}
+	
+	//for testing only
+	public void setCurrentPlayer(int p){
+		game.setCurrentPlayer(p, this);
+	}
+	
+	//for testing only
+	public Player getCurrentPlayer(){
+		return game.getCurrentPlayer();
+	}
+	
+
 	public void turn(){
 		if(falling == false && isValidMove()){
 			System.out.println(getColumnNum());
@@ -647,6 +720,7 @@ public class GamePanel extends javax.swing.JPanel implements ScoreChart.Listener
 		timer.setCoalesce(true);
 		timer.start();
 	}
+
 	
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bgImage;
@@ -664,4 +738,5 @@ public class GamePanel extends javax.swing.JPanel implements ScoreChart.Listener
     private javax.swing.JPanel topGlass;
     private javax.swing.JLabel turnDisplay;
     // End of variables declaration//GEN-END:variables	
+
 }

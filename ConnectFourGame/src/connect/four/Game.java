@@ -104,6 +104,12 @@ public class Game implements ScoreChart {
     public Player getCurrentPlayer(){
             return m_players[m_currentPlayer];
     }
+    
+    //for testing only
+    public void setCurrentPlayer(int p, connect.four.gui.GamePanel gp){
+    	m_currentPlayer = p;
+    	m_players[p] = new connect.four.gui.GUIPlayer("Player " + (p+1), gp);
+    }
 
     public int getInRow() {
 	return m_inRow;

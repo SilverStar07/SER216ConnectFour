@@ -140,6 +140,11 @@ public class GUI extends javax.swing.JFrame {
 		this.winner = winner;
 	}
 	
+	//for testing only
+	public String getWinner(){
+		return winner;
+	}
+	
 	int getScore1(){
 		return score1;
 	}

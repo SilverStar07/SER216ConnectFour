@@ -78,4 +78,12 @@ public class Board implements ReadWritableBoard {
     public @Override int getMoveCount() {
         return m_moveCount;
     }
+    
+    public void setColumnHeight(int height, int columnNum, connect.four.gui.GUIPlayer player){
+    	if(height<0 || height>m_contents[0].length)
+    		throw new ArrayIndexOutOfBoundsException();
+    	for(int i=columnNum, j=0; j<height; j++){
+    		m_contents[i][j] = player;
+    	}
+    }
 }
