@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 public class GamePanelSpec {
   final GUI testGUI = new GUI();
   
-  final GamePanel testPanel = new GamePanel(this.testGUI, false);
+  final GamePanel testPanel = new GamePanel(this.testGUI, false, 2);
   
   final GUIPlayer testPlayer = new GUIPlayer("testPlayer", this.testPanel);
   

@@ -9,7 +9,7 @@ import connect.four.board.Board
 
 describe GamePanel {
 	val testGUI = new GUI();
-	val testPanel = new GamePanel(testGUI, false)
+	val testPanel = new GamePanel(testGUI, false, 2)
 	val testPlayer = new GUIPlayer("testPlayer", testPanel)
 	
 	def printTestName(String name){
