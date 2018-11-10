@@ -1,18 +1,19 @@
 
 package connect.four.board;
 
+import connect.four.gui.GUIWrapperPlayer;
 import connect.four.player.Player;
 import java.util.Arrays;
 
 public class Board implements ReadWritableBoard {
-    Player[][] m_contents;
+    Player[][] m_contents; // waste of memory to store the entire player in what is effectively the board.
     int m_moveCount;
     public Board(int width, int height) {
         m_contents = new Player[width][height];
         m_moveCount = 0;
     }
     public Board(ReadableBoard copy) {
-        if (copy instanceof Board) {
+        if (copy instanceof Board) { // can't you just do this = (Board) copy? does it have to be immutable?
             Board copyB = (Board) copy;
             m_moveCount = copyB.m_moveCount;
             int l = copyB.m_contents.length;
@@ -21,7 +22,8 @@ public class Board implements ReadWritableBoard {
             for (int i = 0; i != l; ++i) {
                 m_contents[i] = Arrays.copyOf(copyB.m_contents[i], m);
             }
-        } else {
+        } 
+        else {
             int l = copy.getWidth();
             int m = copy.getHeight();
             m_contents = new Player[l][m];
@@ -34,11 +36,16 @@ public class Board implements ReadWritableBoard {
         }
     }
     public @Override Player whoPlayed(int x, int y) {
+    	if(m_contents[x][y] instanceof GUIWrapperPlayer){
+    		return ((GUIWrapperPlayer)m_contents[x][y]).getPlayer();
+    	}
+    	
         return m_contents[x][y];
     }
     public @Override int getWidth() {
         return m_contents.length;
     }
+    
     public @Override int getHeight() {
         return m_contents[0].length;
     }
@@ -53,8 +60,8 @@ public class Board implements ReadWritableBoard {
     
     public @Override int getColumnHeight(int x){
         int y = 0;
-	int l = m_contents[0].length;
-        while (y != l && m_contents[x][y] != null) {
+        int l = m_contents[0].length;
+        while (y != l && m_contents[x][y] != null) { // when y == 1 (after one iteration) it will end loop... Think it is supposed to be board height instead of 1.
             y += 1;
         }
         return y;
@@ -65,9 +72,17 @@ public class Board implements ReadWritableBoard {
         for (int i = 0; i != l; ++i) {
             m_contents[i] = new Player[m];
         }
-	m_moveCount = 0;
+        m_moveCount = 0;
     }
     public @Override int getMoveCount() {
         return m_moveCount;
+    }
+    
+    public void setColumnHeight(int height, int columnNum, connect.four.gui.GUIPlayer player){
+    	if(height<0 || height>m_contents[0].length)
+    		throw new ArrayIndexOutOfBoundsException();
+    	for(int i=columnNum, j=0; j<height; j++){
+    		m_contents[i][j] = player;
+    	}
     }
 }

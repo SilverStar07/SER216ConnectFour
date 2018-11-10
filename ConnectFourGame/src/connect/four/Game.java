@@ -12,15 +12,15 @@ import java.util.Random;
 
 public class Game implements ScoreChart {
     Player[] m_players;
-    int[] m_scores;
+    int[] m_scores; // since when is there a score in connect four?
     List<ScoreChart.Listener> m_listeners;
     ReadWritableBoard m_board;
-    int m_inRow;
+    int m_inRow; // why track row?
     int m_currentPlayer;
     
     public Game(Player[] players, ReadWritableBoard board, int inRow) {
-        m_players = Arrays.copyOf(players, players.length);
-        m_scores = new int[players.length];
+        m_players = Arrays.copyOf(players, players.length);	// why make a copy?
+        m_scores = new int[players.length]; // is there a case where there are more or less than 2 players?
         m_listeners = new ArrayList<ScoreChart.Listener>();
         m_board = board;
         m_inRow = inRow;
@@ -38,6 +38,11 @@ public class Game implements ScoreChart {
     @Override public List<Player> getPlayers() {
         return Arrays.asList(m_players);
     }
+    
+    public void setScore(int pos, int newScore) { 
+        m_scores[pos] = newScore;
+    }
+    
     @Override public int getScore(Player p) {
         int pos = -1;
         int l = m_players.length;
@@ -59,7 +64,7 @@ public class Game implements ScoreChart {
                 }
                 played = true;
                 m_board.play(x, p);
-		Player win = detectWinner(m_board, m_inRow);
+                Player win = detectWinner(m_board, m_inRow);
                 if (win != null) {
                     m_scores[player] += 1;
                     for (ScoreChart.Listener l : m_listeners) {
@@ -67,37 +72,48 @@ public class Game implements ScoreChart {
                     }
                     m_board.clear();
                     performPlay(player);
-		} else if (m_board.getMoveCount() == m_board.getWidth()*m_board.getHeight() ) {
+                } 
+                else if (m_board.getMoveCount() == m_board.getWidth()*m_board.getHeight() ) {
                     for (ScoreChart.Listener l : m_listeners) {
                         l.gameOver(null, Game.this, m_board);
                     }
                     m_board.clear();
                     performPlay((player+1) % m_players.length);
-                } else {
+                } 
+                else {
                     performPlay((player+1) % m_players.length);
                 }
             }
-            @Override public void clear() {
+            @Override 
+            public void clear() {
                 m_board.clear();
             }
-            @Override public int getWidth() {
+            @Override 
+            public int getWidth() {
                 return m_board.getWidth();
             }
-            @Override public int getHeight() {
+            @Override 
+            public int getHeight() {
                 return m_board.getHeight();
             }
-	    @Override public int getColumnHeight(int x) {
-		return m_board.getColumnHeight(x);
-	    }
-	    @Override public int getMoveCount() {
-		return m_board.getMoveCount();
-	    }
+            @Override public int getColumnHeight(int x) {
+			return m_board.getColumnHeight(x);
+		    }
+		    @Override public int getMoveCount() {
+			return m_board.getMoveCount();
+		    }
         };
         m_players[player].performPlay(controlledBoard);
     }
     
     public Player getCurrentPlayer(){
             return m_players[m_currentPlayer];
+    }
+    
+    //for testing only
+    public void setCurrentPlayer(int p, connect.four.gui.GamePanel gp){
+    	m_currentPlayer = p;
+    	m_players[p] = new connect.four.gui.GUIPlayer("Player " + (p+1), gp);
     }
 
     public int getInRow() {
@@ -109,30 +125,45 @@ public class Game implements ScoreChart {
     }
 
     public static Player detectWinner(ReadableBoard board, int inRow) {
-        int l = board.getWidth();
-        int m = board.getHeight();
-        for (int i = 0; i != l; ++i) {
+    	// inRow is how many tokens should be in a row in order to win. Only called with inRow of 4.
+    	if(board.getMoveCount()<(inRow*2-1))		// not enough moves to have a winner yet
+    		return null;
+        int width = board.getWidth();
+        int height = board.getHeight();
+        
+        // check columns for winner
+        // would be easy to make more efficient by continuing to next column if a null space is found
+        for (int i = 0; i < width; ++i) {				
             Player possible = null;
             int found = 0;
-            for (int j = 0; j != m; ++j) {
-                if (board.whoPlayed(i, j) == possible && possible != null) {
+            for (int j = 0; j < height; ++j) {
+                if (board.whoPlayed(i, j) == null) {		// no longer possible to have a win in this column, move on to next column
+                	j=height;
+                } 
+                else if (board.whoPlayed(i, j) == possible) {
                     found += 1;
-                } else {
+                    if (found == inRow) {
+                        return possible;
+                    }
+                }
+                else {
                     found = 1;
                     possible = board.whoPlayed(i, j);
                 }
-                if (found == inRow) {
-                    return possible;
-                }
             }
         }
-        for (int i = 0; i != m; ++i) {
+        
+        // check rows for winner
+        for (int i = 0; i < height; ++i) {
             Player possible = null;
             int found = 0;
-            for (int j = 0; j != l; ++j) {
+            for (int j = 0; j < width; ++j) {
                 if (board.whoPlayed(j, i) == possible && possible != null) {
                     found += 1;
-                } else {
+                }
+                else if(j > width-inRow+1) // no longer possible to have a win in this row, move on to next row
+                	j=width;
+                else {
                     found = 1;
                     possible = board.whoPlayed(j, i);
                 }
@@ -141,42 +172,55 @@ public class Game implements ScoreChart {
                 }
             }
         }
-	for (int i = -l; i != l; ++i) {
+        
+        // checks diagonals going from bottom left to top right. First location checked is top left corner position
+        // adjusted i to start at first diagonal that could contain a win and end on last diagonal that could contain a win
+        for (int i = inRow-height; i < width-inRow+1; ++i) {
             Player possible = null;
             int found = 0;
-	    for (int j = 0; j != m; ++j) {
-		int k = j+i;
-		if (k >= 0 && k < l) {
-                    if (board.whoPlayed(k, j) == possible && possible != null) {
+		   	for (int j = 0; j < height; ++j) {
+				int k = j+i;
+				if (k >= 0 && k < width) {
+	                if (board.whoPlayed(k, j) == possible && possible != null) {
+	                    found += 1;
+	                } 
+	                else if(j > height-inRow+1) // no longer possible to have a win in this diagonal, move on to next diagonal
+	                	j=height;
+	                else {
+	                    found = 1;
+	                    possible = board.whoPlayed(k, j);
+	                }
+	                if (found == inRow) {
+	                    return possible;
+	                }
+				}
+		    }
+		}
+
+        // checks diagonals from bottom right to top left. Starts at top right space on board.
+        // adjusted i to start at first diagonal that could contain a win and end on last diagonal that could contain a win
+        for (int i = inRow-height; i < width-inRow+1; ++i) {
+            Player possible = null;
+            int found = 0;
+		    for (int j = 0; j < height; ++j) {
+		    	int k = j+i;
+		    	if (k >= 0 && k < width) {
+                    if (board.whoPlayed(width-k-1, j) == possible && possible != null) {
                         found += 1;
-                    } else {
+                    } 
+                    else if(j > height-inRow+1)	// no longer possible to have a win in this diagonal, move on to next diagonal
+                    	j=height;
+                    else {
                         found = 1;
-                        possible = board.whoPlayed(k, j);
+                        possible = board.whoPlayed(width-k-1, j);
                     }
                     if (found == inRow) {
                         return possible;
                     }
-		}
-	    }
-	}
-	for (int i = -l; i != l; ++i) {
-            Player possible = null;
-            int found = 0;
-	    for (int j = 0; j != m; ++j) {
-		int k = j+i;
-		if (k >= 0 && k < l) {
-                    if (board.whoPlayed(l-k-1, j) == possible && possible != null) {
-                        found += 1;
-                    } else {
-                        found = 1;
-                        possible = board.whoPlayed(l-k-1, j);
-                    }
-                    if (found == inRow) {
-                        return possible;
-                    }
-		}
-	    }
-	}
+				}
+		    }
+        }
         return null;
     }
+
 }

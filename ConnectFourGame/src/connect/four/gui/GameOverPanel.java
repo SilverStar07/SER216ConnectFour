@@ -2,9 +2,16 @@
 
 package connect.four.gui;
 
+import java.io.InputStream;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+
 
 public class GameOverPanel extends javax.swing.JPanel {
-
+	private static final long serialVersionUID = 92671837883194129L;
 	GUI gui;
 	
 	public GameOverPanel(GUI gui, String winner) {
@@ -17,107 +24,118 @@ public class GameOverPanel extends javax.swing.JPanel {
 	}
 	
 	
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+            winnerDisplay = new javax.swing.JLabel();
+            winner = new javax.swing.JLabel();
+            labelGameOVer = new javax.swing.JLabel();
+            butPlayAgain = new javax.swing.JButton();
+            butMainMenu = new javax.swing.JButton();
 
-	
-	@SuppressWarnings("unchecked")
-        // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-        private void initComponents() {
+            setBackground(new java.awt.Color(0, 0, 0));
 
-                winnerDisplay = new javax.swing.JLabel();
-                winner = new javax.swing.JLabel();
-                labelGameOVer = new javax.swing.JLabel();
-                butPlayAgain = new javax.swing.JButton();
-                butMainMenu = new javax.swing.JButton();
+            winnerDisplay.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+            winnerDisplay.setForeground(new java.awt.Color(255, 255, 255));
+            winnerDisplay.setText("Winner");
 
-                setBackground(new java.awt.Color(0, 0, 0));
+            winner.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
+            winner.setForeground(new java.awt.Color(255, 255, 255));
+            winner.setText("Winner:");
 
-                winnerDisplay.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-                winnerDisplay.setForeground(new java.awt.Color(255, 255, 255));
-                winnerDisplay.setText("Winner");
+            labelGameOVer.setFont(new java.awt.Font("Lucida Grande", 0, 48)); // NOI18N
+            labelGameOVer.setForeground(new java.awt.Color(255, 255, 255));
+            labelGameOVer.setText("GAME OVER");
 
-                winner.setFont(new java.awt.Font("Lucida Grande", 0, 24)); // NOI18N
-                winner.setForeground(new java.awt.Color(255, 255, 255));
-                winner.setText("Winner:");
+            butPlayAgain.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+            butPlayAgain.setText("Play Again");
+            butPlayAgain.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                            butPlayAgainActionPerformed(evt);
+                    }
+            });
 
-                labelGameOVer.setFont(new java.awt.Font("Lucida Grande", 0, 48)); // NOI18N
-                labelGameOVer.setForeground(new java.awt.Color(255, 255, 255));
-                labelGameOVer.setText("GAME OVER");
+            butMainMenu.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+            butMainMenu.setText("Main Menu");
+            butMainMenu.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                            butMainMenuActionPerformed(evt);
+                    }
+            });
 
-                butPlayAgain.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-                butPlayAgain.setText("Play Again");
-                butPlayAgain.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                butPlayAgainActionPerformed(evt);
-                        }
-                });
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+            this.setLayout(layout);
+            layout.setHorizontalGroup(
+                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                            .addGap(499, 499, 499)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                            .addComponent(winner)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                            .addComponent(winnerDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                            .addComponent(butPlayAgain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                            .addComponent(labelGameOVer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addGroup(layout.createSequentialGroup()
+                                            .addGap(551, 551, 551)
+                                            .addComponent(butMainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addContainerGap(429, Short.MAX_VALUE))
+            );
+            layout.setVerticalGroup(
+                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                            .addGap(145, 145, 145)
+                            .addComponent(labelGameOVer)
+                            .addGap(43, 43, 43)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(winnerDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(winner, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(63, 63, 63)
+                            .addComponent(butPlayAgain, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(37, 37, 37)
+                            .addComponent(butMainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap(304, Short.MAX_VALUE))
+            );
+    }// </editor-fold>//GEN-END:initComponents
 
-                butMainMenu.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-                butMainMenu.setText("Main Menu");
-                butMainMenu.addActionListener(new java.awt.event.ActionListener() {
-                        public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                butMainMenuActionPerformed(evt);
-                        }
-                });
+    private void butPlayAgainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butPlayAgainActionPerformed
+    buttonSound(); //Play button sound  
+	gui.remove(this);
+	gui.addGamePanel();
+	gui.revalidate();
+	gui.repaint();
+    }//GEN-LAST:event_butPlayAgainActionPerformed
 
-                javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-                this.setLayout(layout);
-                layout.setHorizontalGroup(
-                        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(499, 499, 499)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(winner)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addComponent(winnerDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                                .addComponent(butPlayAgain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                .addComponent(labelGameOVer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(551, 551, 551)
-                                                .addComponent(butMainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(429, Short.MAX_VALUE))
-                );
-                layout.setVerticalGroup(
-                        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(145, 145, 145)
-                                .addComponent(labelGameOVer)
-                                .addGap(43, 43, 43)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(winnerDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(winner, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(63, 63, 63)
-                                .addComponent(butPlayAgain, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(37, 37, 37)
-                                .addComponent(butMainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(304, Short.MAX_VALUE))
-                );
-        }// </editor-fold>//GEN-END:initComponents
+    private void butMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butMainMenuActionPerformed
+    buttonSound(); //Play button sound
+	gui.remove(this);
+	gui.addMainMenu();
+	gui.revalidate();
+	gui.repaint();
+    }//GEN-LAST:event_butMainMenuActionPerformed
 
-        private void butPlayAgainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butPlayAgainActionPerformed
-                
-		gui.remove(this);
-		gui.addGamePanel();
-		gui.revalidate();
-		gui.repaint();
-        }//GEN-LAST:event_butPlayAgainActionPerformed
-
-        private void butMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butMainMenuActionPerformed
-		gui.remove(this);
-		gui.addMainMenu();
-		gui.revalidate();
-		gui.repaint();
-        }//GEN-LAST:event_butMainMenuActionPerformed
-
-
-        // Variables declaration - do not modify//GEN-BEGIN:variables
-        private javax.swing.JButton butMainMenu;
-        private javax.swing.JButton butPlayAgain;
-        private javax.swing.JLabel labelGameOVer;
-        private javax.swing.JLabel winner;
-        private javax.swing.JLabel winnerDisplay;
-        // End of variables declaration//GEN-END:variables
+    //Plays Button Sound
+    public void buttonSound() { 
+    	try { 
+    		AudioInputStream in = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/button.wav"));
+    		Clip clip = AudioSystem.getClip();
+    		clip.open(in);
+    		FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			volumeControl.setValue(GUI.AUDIO_GAIN);
+    		clip.start();
+ 
+    	} catch(Exception any) {
+    		System.out.println("Exception : " + any);
+    	}
+    }
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton butMainMenu;
+    private javax.swing.JButton butPlayAgain;
+    private javax.swing.JLabel labelGameOVer;
+    private javax.swing.JLabel winner;
+    private javax.swing.JLabel winnerDisplay;
+    // End of variables declaration//GEN-END:variables
 }

@@ -6,13 +6,14 @@
 
 package connect.four.gui;
 
-import connect.four.*;
-import connect.four.board.*;
-import connect.four.player.*;
-
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 public class GUI extends javax.swing.JFrame {
-
+	private static final long serialVersionUID = -8980582623705405399L;
+	public static float AUDIO_GAIN = -13;
 	MainMenuPanel mainMenu;
 	GamePanel gamePanel;
 	GameOverPanel gameOverPanel;
@@ -22,35 +23,34 @@ public class GUI extends javax.swing.JFrame {
 	int score1, score2;
 	
 	public GUI() {
+		backgroundMusic();
 		initComponents();
 		score1 = 0;
 		score2 = 0;
-		//gamePanel = new GamePanel(this);
 		mainMenu = new MainMenuPanel(this);
 		add(mainMenu);
 		
 	}
 
-	
-	@SuppressWarnings("unchecked")
-        // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-        private void initComponents() {
+	// what is this commented out stuff?
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-                setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+            setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-                javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-                getContentPane().setLayout(layout);
-                layout.setHorizontalGroup(
-                        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 1280, Short.MAX_VALUE)
-                );
-                layout.setVerticalGroup(
-                        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 800, Short.MAX_VALUE)
-                );
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGap(0, 1280, Short.MAX_VALUE)
+            );
+            layout.setVerticalGroup(
+                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGap(0, 800, Short.MAX_VALUE)
+            );
 
-                pack();
-        }// </editor-fold>//GEN-END:initComponents
+            pack();
+    }// </editor-fold>//GEN-END:initComponents
 
 	
 	public static void main(String args[]) {
@@ -79,6 +79,7 @@ public class GUI extends javax.swing.JFrame {
 
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				new GUI().setVisible(true);
 			}
@@ -114,7 +115,7 @@ public class GUI extends javax.swing.JFrame {
 	}
 	
 	void addGamePanel(){
-		gamePanel = new GamePanel(this, mainMenu.getIsEnabled());
+		gamePanel = new GamePanel(this, mainMenu.getIsEnabled(), mainMenu.getDiff());
 		add(gamePanel);
 	}
 	
@@ -141,6 +142,11 @@ public class GUI extends javax.swing.JFrame {
 		this.winner = winner;
 	}
 	
+	//for testing only
+	public String getWinner(){
+		return winner;
+	}
+	
 	int getScore1(){
 		return score1;
 	}
@@ -157,7 +163,20 @@ public class GUI extends javax.swing.JFrame {
 		score2 = newScore;
 	}
 	
-
-        // Variables declaration - do not modify//GEN-BEGIN:variables
-        // End of variables declaration//GEN-END:variables
+	public final void backgroundMusic() {
+	try { 
+		AudioInputStream in = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/ConnectFourBackgroundMusic.wav"));
+		Clip clip  = AudioSystem.getClip();
+		clip.open(in);
+		FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+		volumeControl.setValue(GUI.AUDIO_GAIN);
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		clip.start();
+		} catch(Exception any) { 
+			System.out.println("Exception: " + any);
+		}
+	}
+	
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // End of variables declaration//GEN-END:variables
 }
